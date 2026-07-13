@@ -1,0 +1,1367 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <meta name="description"
+          content="Plataforma interactiva para visualizar los resultados de una investigación sobre estimación de velocidad vehicular mediante redes neuronales convolucionales.">
+
+    <title>Estimación de velocidad vehicular | Congreso de IA</title>
+
+    <!-- Tipografías -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Montserrat:wght@600;700;800&display=swap"
+          rel="stylesheet">
+
+    <style>
+        :root {
+            --azul-congreso: #1D2D50;
+            --azul-congreso-2: #2C447D;
+            --azul-suave: #EAF0FA;
+            --amarillo-congreso: #D9A928;
+            --amarillo-suave: #FFF7DD;
+            --turquesa: #2D9AB8;
+            --gris-texto: #64748B;
+            --gris-oscuro: #334155;
+            --gris-claro: #F8FAFC;
+            --borde: #E2E8F0;
+            --blanco: #FFFFFF;
+            --sombra: 0 18px 45px rgba(29, 45, 80, 0.12);
+            --radio: 22px;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: "Inter", sans-serif;
+            background: var(--gris-claro);
+            color: var(--gris-oscuro);
+            line-height: 1.65;
+        }
+
+        a {
+            color: inherit;
+            text-decoration: none;
+        }
+
+        img {
+            max-width: 100%;
+            display: block;
+        }
+
+        .contenedor {
+            width: min(1180px, calc(100% - 40px));
+            margin-inline: auto;
+        }
+
+        /* =========================
+           NAVEGACIÓN
+        ========================== */
+        .navbar {
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            background: rgba(255, 255, 255, 0.92);
+            backdrop-filter: blur(16px);
+            border-bottom: 1px solid rgba(226, 232, 240, 0.9);
+        }
+
+        .nav-contenido {
+            min-height: 76px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 24px;
+        }
+
+        .marca {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            font-family: "Montserrat", sans-serif;
+            font-weight: 800;
+            color: var(--azul-congreso);
+        }
+
+        .marca-icono {
+            width: 42px;
+            height: 42px;
+            border-radius: 13px;
+            display: grid;
+            place-items: center;
+            color: var(--blanco);
+            background:
+                linear-gradient(135deg,
+                var(--amarillo-congreso),
+                #F2C94C);
+            box-shadow: 0 10px 24px rgba(217, 169, 40, 0.28);
+            font-size: 1.05rem;
+        }
+
+        .marca small {
+            display: block;
+            font-family: "Inter", sans-serif;
+            font-size: 0.72rem;
+            font-weight: 600;
+            color: var(--gris-texto);
+            letter-spacing: 0.08em;
+            text-transform: uppercase;
+        }
+
+        .nav-enlaces {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .nav-enlaces a {
+            padding: 10px 14px;
+            border-radius: 10px;
+            color: var(--gris-oscuro);
+            font-weight: 600;
+            font-size: 0.92rem;
+            transition: 0.25s ease;
+        }
+
+        .nav-enlaces a:hover {
+            color: var(--azul-congreso);
+            background: var(--azul-suave);
+        }
+
+        .boton-nav {
+            background: var(--azul-congreso);
+            color: var(--blanco) !important;
+            box-shadow: 0 10px 24px rgba(29, 45, 80, 0.18);
+        }
+
+        .boton-nav:hover {
+            background: var(--azul-congreso-2) !important;
+        }
+
+        /* =========================
+           HERO
+        ========================== */
+        .hero {
+            position: relative;
+            overflow: hidden;
+            background:
+                radial-gradient(circle at 12% 20%, rgba(217, 169, 40, 0.19), transparent 25%),
+                radial-gradient(circle at 88% 12%, rgba(45, 154, 184, 0.17), transparent 28%),
+                linear-gradient(135deg, #FFFFFF 0%, #F7FAFF 45%, #EDF3FC 100%);
+            padding: 96px 0 82px;
+        }
+
+        .hero::before {
+            content: "";
+            position: absolute;
+            inset: 0;
+            background-image:
+                linear-gradient(rgba(29, 45, 80, 0.035) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(29, 45, 80, 0.035) 1px, transparent 1px);
+            background-size: 40px 40px;
+            mask-image: linear-gradient(to bottom, black, transparent 85%);
+            pointer-events: none;
+        }
+
+        .hero-grid {
+            position: relative;
+            display: grid;
+            grid-template-columns: 1.15fr 0.85fr;
+            gap: 64px;
+            align-items: center;
+        }
+
+        .etiqueta {
+            display: inline-flex;
+            align-items: center;
+            gap: 9px;
+            background: var(--amarillo-suave);
+            color: #8A6500;
+            border: 1px solid rgba(217, 169, 40, 0.35);
+            border-radius: 999px;
+            padding: 8px 14px;
+            font-size: 0.82rem;
+            font-weight: 800;
+            letter-spacing: 0.04em;
+            text-transform: uppercase;
+            margin-bottom: 22px;
+        }
+
+        .etiqueta-punto {
+            width: 9px;
+            height: 9px;
+            border-radius: 50%;
+            background: var(--amarillo-congreso);
+            box-shadow: 0 0 0 5px rgba(217, 169, 40, 0.14);
+        }
+
+        .hero h1 {
+            font-family: "Montserrat", sans-serif;
+            font-size: clamp(2.45rem, 5vw, 4.6rem);
+            line-height: 1.08;
+            color: var(--azul-congreso);
+            letter-spacing: -0.045em;
+            margin-bottom: 24px;
+        }
+
+        .hero h1 span {
+            color: var(--amarillo-congreso);
+        }
+
+        .hero-descripcion {
+            max-width: 680px;
+            font-size: 1.08rem;
+            color: var(--gris-texto);
+            margin-bottom: 30px;
+        }
+
+        .hero-acciones {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 14px;
+            margin-bottom: 34px;
+        }
+
+        .boton {
+            display: inline-flex;
+            justify-content: center;
+            align-items: center;
+            gap: 10px;
+            min-height: 50px;
+            padding: 0 20px;
+            border-radius: 13px;
+            font-weight: 800;
+            transition: transform 0.25s ease, box-shadow 0.25s ease;
+        }
+
+        .boton:hover {
+            transform: translateY(-2px);
+        }
+
+        .boton-principal {
+            background: var(--azul-congreso);
+            color: var(--blanco);
+            box-shadow: 0 14px 30px rgba(29, 45, 80, 0.22);
+        }
+
+        .boton-secundario {
+            background: var(--blanco);
+            color: var(--azul-congreso);
+            border: 1px solid var(--borde);
+            box-shadow: 0 10px 24px rgba(15, 23, 42, 0.06);
+        }
+
+        .datos-autora {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 18px;
+            color: var(--gris-texto);
+            font-size: 0.91rem;
+        }
+
+        .dato {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .dato-icono {
+            color: var(--amarillo-congreso);
+            font-weight: 900;
+        }
+
+        /* =========================
+           TARJETA VISUAL DEL HERO
+        ========================== */
+        .visual {
+            position: relative;
+        }
+
+        .visual-principal {
+            position: relative;
+            overflow: hidden;
+            background:
+                linear-gradient(145deg,
+                rgba(29, 45, 80, 0.98),
+                rgba(44, 68, 125, 0.94));
+            border: 1px solid rgba(255, 255, 255, 0.14);
+            border-radius: 30px;
+            padding: 28px;
+            box-shadow: 0 28px 70px rgba(29, 45, 80, 0.28);
+            min-height: 460px;
+        }
+
+        .visual-principal::after {
+            content: "";
+            position: absolute;
+            width: 240px;
+            height: 240px;
+            border-radius: 50%;
+            right: -90px;
+            top: -80px;
+            background: rgba(217, 169, 40, 0.18);
+            filter: blur(4px);
+        }
+
+        .visual-encabezado {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            position: relative;
+            z-index: 1;
+            margin-bottom: 28px;
+        }
+
+        .visual-titulo {
+            color: var(--blanco);
+            font-weight: 800;
+        }
+
+        .estado {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            color: #D8F5E8;
+            font-size: 0.78rem;
+            font-weight: 700;
+            background: rgba(34, 197, 94, 0.14);
+            border: 1px solid rgba(134, 239, 172, 0.22);
+            padding: 7px 10px;
+            border-radius: 999px;
+        }
+
+        .estado::before {
+            content: "";
+            width: 8px;
+            height: 8px;
+            background: #4ADE80;
+            border-radius: 50%;
+            box-shadow: 0 0 0 5px rgba(74, 222, 128, 0.10);
+        }
+
+        .carretera {
+            position: relative;
+            height: 250px;
+            border-radius: 21px;
+            overflow: hidden;
+            background:
+                linear-gradient(120deg, #23385D 0%, #1B2C4A 100%);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+        }
+
+        .carretera::before {
+            content: "";
+            position: absolute;
+            inset: 0;
+            background:
+                linear-gradient(110deg,
+                    transparent 0 43%,
+                    rgba(255, 255, 255, 0.08) 43% 44%,
+                    transparent 44% 56%,
+                    rgba(255, 255, 255, 0.08) 56% 57%,
+                    transparent 57% 100%);
+        }
+
+        .linea-vial {
+            position: absolute;
+            width: 8px;
+            height: 66px;
+            background: var(--amarillo-congreso);
+            border-radius: 999px;
+            transform: rotate(21deg);
+            opacity: 0.92;
+        }
+
+        .linea-1 { left: 48%; top: 18px; }
+        .linea-2 { left: 58%; top: 102px; }
+        .linea-3 { left: 67%; top: 192px; }
+
+        .vehiculo {
+            position: absolute;
+            border: 2px solid #59D8F1;
+            border-radius: 8px;
+            background: rgba(45, 154, 184, 0.12);
+            box-shadow: 0 0 0 2px rgba(45, 154, 184, 0.08);
+        }
+
+        .vehiculo span {
+            position: absolute;
+            top: -25px;
+            left: -2px;
+            color: var(--blanco);
+            background: var(--turquesa);
+            border-radius: 6px;
+            padding: 3px 7px;
+            font-size: 0.65rem;
+            font-weight: 800;
+            white-space: nowrap;
+        }
+
+        .v1 { width: 72px; height: 45px; left: 16%; top: 136px; }
+        .v2 { width: 85px; height: 52px; right: 13%; top: 72px; }
+        .v3 { width: 58px; height: 38px; left: 41%; top: 45px; }
+
+        .trayectoria {
+            position: absolute;
+            height: 3px;
+            border-radius: 999px;
+            background: linear-gradient(90deg, transparent, var(--amarillo-congreso));
+            transform-origin: left center;
+        }
+
+        .trayectoria-1 {
+            width: 170px;
+            left: 22%;
+            top: 184px;
+            transform: rotate(-18deg);
+        }
+
+        .trayectoria-2 {
+            width: 130px;
+            right: 19%;
+            top: 132px;
+            transform: rotate(22deg);
+        }
+
+        .metricas {
+            position: relative;
+            z-index: 1;
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 12px;
+            margin-top: 18px;
+        }
+
+        .metrica {
+            background: rgba(255, 255, 255, 0.08);
+            border: 1px solid rgba(255, 255, 255, 0.11);
+            border-radius: 15px;
+            padding: 14px;
+            color: var(--blanco);
+        }
+
+        .metrica strong {
+            display: block;
+            font-size: 1.18rem;
+            color: #FFE082;
+        }
+
+        .metrica span {
+            font-size: 0.74rem;
+            color: rgba(255, 255, 255, 0.72);
+        }
+
+        .flotante {
+            position: absolute;
+            right: -28px;
+            bottom: 42px;
+            width: 175px;
+            background: var(--blanco);
+            border: 1px solid var(--borde);
+            border-radius: 18px;
+            padding: 16px;
+            box-shadow: var(--sombra);
+        }
+
+        .flotante small {
+            color: var(--gris-texto);
+        }
+
+        .flotante strong {
+            display: block;
+            font-size: 1.25rem;
+            color: var(--azul-congreso);
+            margin-top: 4px;
+        }
+
+        /* =========================
+           SECCIONES GENERALES
+        ========================== */
+        section {
+            padding: 88px 0;
+        }
+
+        .encabezado-seccion {
+            max-width: 730px;
+            margin-bottom: 42px;
+        }
+
+        .pre-titulo {
+            display: block;
+            color: var(--amarillo-congreso);
+            font-weight: 800;
+            text-transform: uppercase;
+            letter-spacing: 0.11em;
+            font-size: 0.8rem;
+            margin-bottom: 10px;
+        }
+
+        .encabezado-seccion h2 {
+            font-family: "Montserrat", sans-serif;
+            color: var(--azul-congreso);
+            font-size: clamp(2rem, 4vw, 3rem);
+            line-height: 1.18;
+            margin-bottom: 15px;
+        }
+
+        .encabezado-seccion p {
+            color: var(--gris-texto);
+            font-size: 1rem;
+        }
+
+        /* =========================
+           RESUMEN
+        ========================== */
+        .resumen-grid {
+            display: grid;
+            grid-template-columns: 0.9fr 1.1fr;
+            gap: 34px;
+            align-items: stretch;
+        }
+
+        .tarjeta-destacada {
+            background:
+                linear-gradient(145deg,
+                var(--azul-congreso),
+                var(--azul-congreso-2));
+            color: var(--blanco);
+            border-radius: var(--radio);
+            padding: 36px;
+            box-shadow: var(--sombra);
+        }
+
+        .tarjeta-destacada h3 {
+            font-family: "Montserrat", sans-serif;
+            font-size: 1.55rem;
+            margin-bottom: 17px;
+        }
+
+        .tarjeta-destacada p {
+            color: rgba(255, 255, 255, 0.78);
+        }
+
+        .palabras-clave {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 9px;
+            margin-top: 25px;
+        }
+
+        .palabras-clave span {
+            padding: 8px 11px;
+            border-radius: 999px;
+            background: rgba(255, 255, 255, 0.09);
+            border: 1px solid rgba(255, 255, 255, 0.12);
+            color: rgba(255, 255, 255, 0.88);
+            font-size: 0.78rem;
+            font-weight: 700;
+        }
+
+        .resumen-datos {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 16px;
+        }
+
+        .dato-card {
+            background: var(--blanco);
+            border: 1px solid var(--borde);
+            border-radius: 18px;
+            padding: 24px;
+            transition: transform 0.25s ease, box-shadow 0.25s ease;
+        }
+
+        .dato-card:hover {
+            transform: translateY(-4px);
+            box-shadow: var(--sombra);
+        }
+
+        .dato-card-icono {
+            width: 46px;
+            height: 46px;
+            display: grid;
+            place-items: center;
+            border-radius: 13px;
+            background: var(--amarillo-suave);
+            color: var(--amarillo-congreso);
+            font-weight: 900;
+            margin-bottom: 16px;
+        }
+
+        .dato-card h3 {
+            color: var(--azul-congreso);
+            font-size: 1rem;
+            margin-bottom: 6px;
+        }
+
+        .dato-card p {
+            color: var(--gris-texto);
+            font-size: 0.88rem;
+        }
+
+        /* =========================
+           METODOLOGÍA
+        ========================== */
+        .metodologia {
+            background: var(--blanco);
+            border-block: 1px solid var(--borde);
+        }
+
+        .flujo {
+            display: grid;
+            grid-template-columns: repeat(5, 1fr);
+            gap: 16px;
+        }
+
+        .paso {
+            position: relative;
+            min-height: 220px;
+            background: var(--gris-claro);
+            border: 1px solid var(--borde);
+            border-radius: 18px;
+            padding: 24px 20px;
+            transition: 0.25s ease;
+        }
+
+        .paso:hover {
+            transform: translateY(-5px);
+            border-color: rgba(217, 169, 40, 0.55);
+            box-shadow: var(--sombra);
+        }
+
+        .paso-numero {
+            width: 38px;
+            height: 38px;
+            display: grid;
+            place-items: center;
+            border-radius: 11px;
+            background: var(--amarillo-congreso);
+            color: var(--blanco);
+            font-weight: 900;
+            margin-bottom: 18px;
+        }
+
+        .paso h3 {
+            color: var(--azul-congreso);
+            font-size: 1rem;
+            margin-bottom: 9px;
+        }
+
+        .paso p {
+            color: var(--gris-texto);
+            font-size: 0.84rem;
+        }
+
+        .paso:not(:last-child)::after {
+            content: "→";
+            position: absolute;
+            right: -16px;
+            top: 50%;
+            transform: translateY(-50%);
+            z-index: 2;
+            color: var(--amarillo-congreso);
+            font-weight: 900;
+            font-size: 1.2rem;
+        }
+
+        /* =========================
+           RESULTADOS
+        ========================== */
+        .resultados-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 20px;
+        }
+
+        .resultado-card {
+            background: var(--blanco);
+            border: 1px solid var(--borde);
+            border-radius: 20px;
+            padding: 26px;
+            position: relative;
+            overflow: hidden;
+            min-height: 250px;
+            transition: 0.25s ease;
+        }
+
+        .resultado-card:hover {
+            transform: translateY(-5px);
+            box-shadow: var(--sombra);
+        }
+
+        .resultado-card::before {
+            content: "";
+            position: absolute;
+            width: 95px;
+            height: 95px;
+            border-radius: 50%;
+            top: -36px;
+            right: -30px;
+            background: rgba(217, 169, 40, 0.12);
+        }
+
+        .resultado-icono {
+            width: 50px;
+            height: 50px;
+            border-radius: 15px;
+            display: grid;
+            place-items: center;
+            background: var(--azul-suave);
+            color: var(--azul-congreso);
+            font-weight: 900;
+            margin-bottom: 20px;
+        }
+
+        .resultado-card h3 {
+            color: var(--azul-congreso);
+            margin-bottom: 10px;
+        }
+
+        .resultado-card p {
+            color: var(--gris-texto);
+            font-size: 0.9rem;
+            margin-bottom: 18px;
+        }
+
+        .enlace-card {
+            color: var(--amarillo-congreso);
+            font-weight: 800;
+            font-size: 0.9rem;
+        }
+
+        /* =========================
+           CTA
+        ========================== */
+        .cta {
+            padding-top: 28px;
+        }
+
+        .cta-contenido {
+            display: grid;
+            grid-template-columns: 1fr auto;
+            gap: 30px;
+            align-items: center;
+            background:
+                linear-gradient(135deg,
+                var(--azul-congreso),
+                var(--azul-congreso-2));
+            border-radius: 28px;
+            padding: 42px;
+            color: var(--blanco);
+            box-shadow: var(--sombra);
+        }
+
+        .cta h2 {
+            font-family: "Montserrat", sans-serif;
+            font-size: clamp(1.8rem, 3vw, 2.7rem);
+            margin-bottom: 10px;
+        }
+
+        .cta p {
+            color: rgba(255, 255, 255, 0.76);
+            max-width: 760px;
+        }
+
+        .qr-placeholder {
+            width: 150px;
+            aspect-ratio: 1;
+            background:
+                linear-gradient(90deg, var(--azul-congreso) 10px, transparent 10px) 0 0 / 30px 30px,
+                linear-gradient(var(--azul-congreso) 10px, transparent 10px) 0 0 / 30px 30px,
+                var(--blanco);
+            border: 9px solid var(--blanco);
+            border-radius: 18px;
+            display: grid;
+            place-items: center;
+            color: var(--azul-congreso);
+            font-weight: 900;
+            font-size: 0.76rem;
+            text-align: center;
+            box-shadow: 0 16px 30px rgba(0, 0, 0, 0.16);
+        }
+
+        /* =========================
+           PIE
+        ========================== */
+        footer {
+            padding: 34px 0;
+            color: var(--gris-texto);
+        }
+
+        .footer-contenido {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 20px;
+            border-top: 1px solid var(--borde);
+            padding-top: 26px;
+            font-size: 0.86rem;
+        }
+
+        .footer-contenido strong {
+            color: var(--azul-congreso);
+        }
+
+        /* =========================
+           RESPONSIVE
+        ========================== */
+        .menu-movil {
+            display: none;
+            border: 0;
+            background: var(--azul-suave);
+            color: var(--azul-congreso);
+            width: 44px;
+            height: 44px;
+            border-radius: 12px;
+            font-size: 1.2rem;
+            cursor: pointer;
+        }
+
+        @media (max-width: 1020px) {
+            .hero-grid,
+            .resumen-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .visual {
+                max-width: 720px;
+                margin-inline: auto;
+                width: 100%;
+            }
+
+            .flujo {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .paso:not(:last-child)::after {
+                display: none;
+            }
+
+            .resultados-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        @media (max-width: 780px) {
+            .menu-movil {
+                display: grid;
+                place-items: center;
+            }
+
+            .nav-enlaces {
+                position: absolute;
+                top: 76px;
+                left: 20px;
+                right: 20px;
+                display: none;
+                flex-direction: column;
+                align-items: stretch;
+                background: var(--blanco);
+                border: 1px solid var(--borde);
+                border-radius: 16px;
+                padding: 12px;
+                box-shadow: var(--sombra);
+            }
+
+            .nav-enlaces.abierto {
+                display: flex;
+            }
+
+            .hero {
+                padding-top: 68px;
+            }
+
+            .flotante {
+                right: 12px;
+                bottom: 18px;
+            }
+
+            .metricas,
+            .resumen-datos,
+            .resultados-grid,
+            .cta-contenido {
+                grid-template-columns: 1fr;
+            }
+
+            .flujo {
+                grid-template-columns: 1fr;
+            }
+
+            .cta-contenido {
+                text-align: center;
+            }
+
+            .qr-placeholder {
+                margin-inline: auto;
+            }
+
+            .footer-contenido {
+                flex-direction: column;
+                text-align: center;
+            }
+        }
+
+        @media (max-width: 520px) {
+            .contenedor {
+                width: min(100% - 24px, 1180px);
+            }
+
+            .hero h1 {
+                font-size: 2.3rem;
+            }
+
+            .visual-principal {
+                padding: 18px;
+                min-height: 430px;
+            }
+
+            .flotante {
+                position: static;
+                width: 100%;
+                margin-top: 14px;
+            }
+
+            .hero-acciones {
+                flex-direction: column;
+            }
+
+            .boton {
+                width: 100%;
+            }
+
+            .tarjeta-destacada,
+            .cta-contenido {
+                padding: 28px 22px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- =========================
+         NAVEGACIÓN
+    ========================== -->
+    <header class="navbar">
+        <div class="contenedor nav-contenido">
+            <a href="#inicio" class="marca" aria-label="Ir al inicio">
+                <div class="marca-icono">IA</div>
+                <div>
+                    Congreso de IA
+                    <small>Resultados interactivos</small>
+                </div>
+            </a>
+
+            <button class="menu-movil"
+                    id="menuMovil"
+                    aria-label="Abrir menú"
+                    aria-expanded="false">
+                ☰
+            </button>
+
+            <nav class="nav-enlaces" id="navEnlaces">
+                <a href="#investigacion">Investigación</a>
+                <a href="#metodologia">Metodología</a>
+                <a href="#resultados">Resultados</a>
+                <a href="#explorar" class="boton-nav">Explorar plataforma</a>
+            </nav>
+        </div>
+    </header>
+
+    <main>
+
+        <!-- =========================
+             HERO
+        ========================== -->
+        <section class="hero" id="inicio">
+            <div class="contenedor hero-grid">
+
+                <div>
+                    <div class="etiqueta">
+                        <span class="etiqueta-punto"></span>
+                        Plataforma científica interactiva
+                    </div>
+
+                    <h1>
+                        Estimación de
+                        <span>velocidad vehicular</span>
+                        mediante CNN
+                    </h1>
+
+                    <p class="hero-descripcion">
+                        Visualización de resultados, videos procesados y simulaciones
+                        relacionadas con la detección, el seguimiento y la estimación
+                        cinemática de vehículos mediante redes neuronales convolucionales.
+                    </p>
+
+                    <div class="hero-acciones">
+                        <a href="#resultados" class="boton boton-principal">
+                            Ver resultados
+                            <span aria-hidden="true">→</span>
+                        </a>
+
+                        <a href="#metodologia" class="boton boton-secundario">
+                            Conocer metodología
+                        </a>
+                    </div>
+
+                    <div class="datos-autora">
+                        <div class="dato">
+                            <span class="dato-icono">◆</span>
+                            Ruth Eunice Moreno Melara
+                        </div>
+
+                        <div class="dato">
+                            <span class="dato-icono">◆</span>
+                            Universidad Nacional Autónoma de Honduras
+                        </div>
+                    </div>
+                </div>
+
+                <div class="visual" aria-label="Representación visual del sistema">
+                    <div class="visual-principal">
+
+                        <div class="visual-encabezado">
+                            <div class="visual-titulo">
+                                Sistema de detección y seguimiento
+                            </div>
+                            <div class="estado">Procesamiento activo</div>
+                        </div>
+
+                        <div class="carretera">
+                            <div class="linea-vial linea-1"></div>
+                            <div class="linea-vial linea-2"></div>
+                            <div class="linea-vial linea-3"></div>
+
+                            <div class="vehiculo v1">
+                                <span>ID 12 · 42 km/h</span>
+                            </div>
+
+                            <div class="vehiculo v2">
+                                <span>ID 18 · 36 km/h</span>
+                            </div>
+
+                            <div class="vehiculo v3">
+                                <span>ID 23 · 51 km/h</span>
+                            </div>
+
+                            <div class="trayectoria trayectoria-1"></div>
+                            <div class="trayectoria trayectoria-2"></div>
+                        </div>
+
+                        <div class="metricas">
+                            <div class="metrica">
+                                <strong>4</strong>
+                                <span>Clases vehiculares</span>
+                            </div>
+
+                            <div class="metrica">
+                                <strong>30 FPS</strong>
+                                <span>Frecuencia de video</span>
+                            </div>
+
+                            <div class="metrica">
+                                <strong>416 px</strong>
+                                <span>Entrada del modelo</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="flotante">
+                        <small>Flujo principal</small>
+                        <strong>Video → Velocidad</strong>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- =========================
+             RESUMEN DEL PROYECTO
+        ========================== -->
+        <section id="investigacion">
+            <div class="contenedor">
+                <div class="encabezado-seccion">
+                    <span class="pre-titulo">La investigación</span>
+                    <h2>Una solución integrada para analizar el movimiento vehicular</h2>
+                    <p>
+                        El sistema transforma secuencias de video en información
+                        cuantitativa sobre trayectorias, velocidades y densidad vehicular.
+                    </p>
+                </div>
+
+                <div class="resumen-grid">
+                    <article class="tarjeta-destacada">
+                        <h3>Objetivo de la plataforma</h3>
+                        <p>
+                            Presentar de forma visual e interactiva los resultados que no
+                            pueden integrarse directamente en el artículo o en las
+                            diapositivas del congreso, especialmente videos, trayectorias,
+                            comparaciones y simulaciones.
+                        </p>
+
+                        <div class="palabras-clave">
+                            <span>Visión por computador</span>
+                            <span>Redes neuronales</span>
+                            <span>Seguimiento</span>
+                            <span>Homografía</span>
+                            <span>Velocidad</span>
+                            <span>Densidad</span>
+                        </div>
+                    </article>
+
+                    <div class="resumen-datos">
+                        <article class="dato-card">
+                            <div class="dato-card-icono">01</div>
+                            <h3>Detección</h3>
+                            <p>
+                                Identificación y clasificación de vehículos en cada
+                                fotograma mediante una red neuronal convolucional.
+                            </p>
+                        </article>
+
+                        <article class="dato-card">
+                            <div class="dato-card-icono">02</div>
+                            <h3>Seguimiento</h3>
+                            <p>
+                                Asociación temporal de detecciones para reconstruir la
+                                trayectoria individual de cada vehículo.
+                            </p>
+                        </article>
+
+                        <article class="dato-card">
+                            <div class="dato-card-icono">03</div>
+                            <h3>Transformación</h3>
+                            <p>
+                                Conversión de coordenadas en píxeles a posiciones reales
+                                mediante una transformación proyectiva.
+                            </p>
+                        </article>
+
+                        <article class="dato-card">
+                            <div class="dato-card-icono">04</div>
+                            <h3>Estimación</h3>
+                            <p>
+                                Cálculo de velocidad y generación de datos para estudiar
+                                su relación con la densidad vehicular.
+                            </p>
+                        </article>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- =========================
+             METODOLOGÍA
+        ========================== -->
+        <section class="metodologia" id="metodologia">
+            <div class="contenedor">
+                <div class="encabezado-seccion">
+                    <span class="pre-titulo">Metodología</span>
+                    <h2>Flujo general del sistema</h2>
+                    <p>
+                        Cada módulo procesa la información generada por la etapa anterior,
+                        desde la adquisición del video hasta la obtención de variables
+                        útiles para el análisis del tráfico.
+                    </p>
+                </div>
+
+                <div class="flujo">
+                    <article class="paso">
+                        <div class="paso-numero">1</div>
+                        <h3>Adquisición de video</h3>
+                        <p>
+                            Captura de secuencias vehiculares y extracción de fotogramas
+                            para construir el conjunto de datos.
+                        </p>
+                    </article>
+
+                    <article class="paso">
+                        <div class="paso-numero">2</div>
+                        <h3>Detección con CNN</h3>
+                        <p>
+                            Localización de vehículos mediante cajas delimitadoras,
+                            clases y niveles de confianza.
+                        </p>
+                    </article>
+
+                    <article class="paso">
+                        <div class="paso-numero">3</div>
+                        <h3>Seguimiento temporal</h3>
+                        <p>
+                            Asociación de objetos entre cuadros consecutivos utilizando
+                            criterios geométricos o probabilísticos.
+                        </p>
+                    </article>
+
+                    <article class="paso">
+                        <div class="paso-numero">4</div>
+                        <h3>Proyección métrica</h3>
+                        <p>
+                            Transformación de las posiciones detectadas desde el plano
+                            de la imagen hacia coordenadas reales.
+                        </p>
+                    </article>
+
+                    <article class="paso">
+                        <div class="paso-numero">5</div>
+                        <h3>Velocidad y densidad</h3>
+                        <p>
+                            Estimación de variables cinemáticas y construcción de datos
+                            para el análisis estadístico.
+                        </p>
+                    </article>
+                </div>
+            </div>
+        </section>
+
+        <!-- =========================
+             RESULTADOS DISPONIBLES
+        ========================== -->
+        <section id="resultados">
+            <div class="contenedor">
+                <div class="encabezado-seccion">
+                    <span class="pre-titulo">Resultados</span>
+                    <h2>Contenido que estará disponible en la plataforma</h2>
+                    <p>
+                        Esta página inicial funcionará como acceso central a los videos,
+                        gráficos y simulaciones desarrollados durante la investigación.
+                    </p>
+                </div>
+
+                <div class="resultados-grid">
+                    <article class="resultado-card">
+                        <div class="resultado-icono">▶</div>
+                        <h3>Videos procesados</h3>
+                        <p>
+                            Comparación entre el video original y los resultados de
+                            detección, seguimiento y estimación de velocidad.
+                        </p>
+                        <a href="#" class="enlace-card">Disponible próximamente →</a>
+                    </article>
+
+                    <article class="resultado-card">
+                        <div class="resultado-icono">⌁</div>
+                        <h3>Trayectorias vehiculares</h3>
+                        <p>
+                            Visualización del identificador, bounding box y recorrido
+                            estimado para cada vehículo detectado.
+                        </p>
+                        <a href="#" class="enlace-card">Disponible próximamente →</a>
+                    </article>
+
+                    <article class="resultado-card">
+                        <div class="resultado-icono">H</div>
+                        <h3>Transformación proyectiva</h3>
+                        <p>
+                            Simulación del mapeo entre coordenadas en píxeles y posiciones
+                            expresadas en metros sobre la carretera.
+                        </p>
+                        <a href="#" class="enlace-card">Disponible próximamente →</a>
+                    </article>
+
+                    <article class="resultado-card">
+                        <div class="resultado-icono">v</div>
+                        <h3>Estimación de velocidad</h3>
+                        <p>
+                            Consulta de velocidades individuales, velocidad promedio y
+                            evolución temporal de los objetos seguidos.
+                        </p>
+                        <a href="#" class="enlace-card">Disponible próximamente →</a>
+                    </article>
+
+                    <article class="resultado-card">
+                        <div class="resultado-icono">ρ</div>
+                        <h3>Velocidad y densidad</h3>
+                        <p>
+                            Gráficos interactivos para analizar la relación entre la
+                            velocidad observada y la densidad vehicular.
+                        </p>
+                        <a href="#" class="enlace-card">Disponible próximamente →</a>
+                    </article>
+
+                    <article class="resultado-card">
+                        <div class="resultado-icono">Σ</div>
+                        <h3>Métricas del modelo</h3>
+                        <p>
+                            Presentación de precisión, recall, F1-score, matriz de
+                            confusión y otras métricas del detector.
+                        </p>
+                        <a href="#" class="enlace-card">Disponible próximamente →</a>
+                    </article>
+                </div>
+            </div>
+        </section>
+
+        <!-- =========================
+             CTA / QR
+        ========================== -->
+        <section class="cta" id="explorar">
+            <div class="contenedor">
+                <div class="cta-contenido">
+                    <div>
+                        <span class="pre-titulo" style="color:#FFE082;">
+                            Acceso desde el congreso
+                        </span>
+                        <h2>Explora los resultados desde cualquier dispositivo</h2>
+                        <p>
+                            Sustituye este espacio con el código QR final cuando la
+                            plataforma esté publicada en GitHub Pages. El enlace también
+                            podrá incluirse en la diapositiva de resultados del congreso.
+                        </p>
+                    </div>
+
+                    <div class="qr-placeholder" aria-label="Espacio reservado para código QR">
+                        ESPACIO<br>PARA QR
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- =========================
+         PIE DE PÁGINA
+    ========================== -->
+    <footer>
+        <div class="contenedor footer-contenido">
+            <div>
+                <strong>Ruth Eunice Moreno Melara</strong><br>
+                Maestría en Matemática · UNAH
+            </div>
+
+            <div>
+                Plataforma de resultados · Congreso de Inteligencia Artificial
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        const menuMovil = document.getElementById("menuMovil");
+        const navEnlaces = document.getElementById("navEnlaces");
+
+        menuMovil.addEventListener("click", () => {
+            const abierto = navEnlaces.classList.toggle("abierto");
+            menuMovil.setAttribute("aria-expanded", abierto);
+            menuMovil.textContent = abierto ? "✕" : "☰";
+        });
+
+        document.querySelectorAll(".nav-enlaces a").forEach((enlace) => {
+            enlace.addEventListener("click", () => {
+                navEnlaces.classList.remove("abierto");
+                menuMovil.setAttribute("aria-expanded", "false");
+                menuMovil.textContent = "☰";
+            });
+        });
+    </script>
+
+</body>
+</html>
