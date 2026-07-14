@@ -944,6 +944,67 @@
                 padding: 28px 22px;
             }
         }
+ 
+.imagen-principal {
+    position: relative;
+    overflow: hidden;
+    min-height: 460px;
+    border-radius: 30px;
+    background: var(--azul-congreso);
+    border: 1px solid rgba(255, 255, 255, 0.14);
+    box-shadow: 0 28px 70px rgba(29, 45, 80, 0.28);
+}
+
+.imagen-principal img {
+    width: 100%;
+    height: 460px;
+    display: block;
+    object-fit: cover;
+    object-position: center;
+}
+
+.imagen-principal::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background:
+        linear-gradient(
+            to top,
+            rgba(29, 45, 80, 0.72),
+            transparent 42%
+        );
+    pointer-events: none;
+}
+
+.imagen-etiqueta {
+    position: absolute;
+    left: 24px;
+    bottom: 22px;
+    z-index: 2;
+    padding: 9px 14px;
+    border-radius: 999px;
+    background: rgba(255, 255, 255, 0.92);
+    color: var(--azul-congreso);
+    font-size: 0.82rem;
+    font-weight: 800;
+    box-shadow: 0 10px 25px rgba(15, 23, 42, 0.15);
+}
+
+@media (max-width: 520px) {
+    .imagen-principal {
+        min-height: 330px;
+    }
+
+    .imagen-principal img {
+        height: 330px;
+    }
+
+    .imagen-etiqueta {
+        left: 16px;
+        bottom: 16px;
+    }
+} 
+
     </style>
 </head>
 
@@ -957,7 +1018,7 @@
             <a href="#inicio" class="marca" aria-label="Ir al inicio">
                 <div class="marca-icono">IA</div>
                 <div> 
-                    <small>Resultados interactivos</small>
+                    <small>Resultados de investigación</small>
                 </div>
             </a>
 
@@ -1024,56 +1085,21 @@
                     </div>
                 </div>
 
-                <div class="visual" aria-label="Representación visual del sistema">
-                    <div class="visual-principal">
+             
+        <div class="visual" aria-label="Resultado visual del sistema">
+        
+            <div class="imagen-principal">
+        
+                <img
+                    src="resultados/imagenes/det1.jpg"
+                    alt="Resultado del sistema de detección vehicular"
+                >
+        
+            </div>
+        
+        </div>
 
-                        <div class="visual-encabezado">
-                            <div class="visual-titulo">
-                                Sistema de detección y seguimiento
-                            </div>
-                            <div class="estado">Procesamiento activo</div>
-                        </div>
 
-                        <div class="carretera">
-                            <div class="linea-vial linea-1"></div>
-                            <div class="linea-vial linea-2"></div>
-                            <div class="linea-vial linea-3"></div>
-
-                            <div class="vehiculo v1">
-                                <span>ID 12 · 42 km/h</span>
-                            </div>
-
-                            <div class="vehiculo v2">
-                                <span>ID 18 · 36 km/h</span>
-                            </div>
-
-                            <div class="vehiculo v3">
-                                <span>ID 23 · 51 km/h</span>
-                            </div>
-
-                            <div class="trayectoria trayectoria-1"></div>
-                            <div class="trayectoria trayectoria-2"></div>
-                        </div>
-
-                        <div class="metricas">
-                            <div class="metrica">
-                                <strong>4</strong>
-                                <span>Clases vehiculares</span>
-                            </div>
-
-                            <div class="metrica">
-                                <strong>30 FPS</strong>
-                                <span>Frecuencia de video</span>
-                            </div>
-
-                            <div class="metrica">
-                                <strong>416 px</strong>
-                                <span>Entrada del modelo</span>
-                            </div>
-                        </div>
-                    </div>
- 
-                </div>
             </div>
         </section>
 
