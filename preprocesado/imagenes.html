@@ -1,1 +1,373 @@
-a
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Preprocesamiento de datos</title>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Montserrat:wght@600;700;800&display=swap" rel="stylesheet">
+
+<style>
+
+:root{
+
+    --azul:#1D2D50;
+    --azul2:#2C447D;
+    --turquesa:#2D9AB8;
+    --dorado:#D9A928;
+
+    --gris:#64748B;
+    --grisClaro:#F8FAFC;
+    --borde:#E2E8F0;
+
+    --blanco:#FFFFFF;
+
+    --shadow:0 18px 40px rgba(29,45,80,.10);
+
+}
+
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+}
+
+body{
+
+    font-family:Inter,sans-serif;
+    background:var(--grisClaro);
+    color:#334155;
+
+}
+
+.container{
+
+    width:min(1200px,95%);
+    margin:auto;
+
+}
+
+header{
+
+    padding:70px 0 45px;
+
+}
+
+.tag{
+
+    display:inline-block;
+    background:#FFF7DD;
+    color:#8A6500;
+    border:1px solid rgba(217,169,40,.35);
+    border-radius:30px;
+    padding:8px 18px;
+    font-size:.80rem;
+    font-weight:700;
+    margin-bottom:20px;
+
+}
+
+h1{
+
+    color:var(--azul);
+    font-size:3rem;
+    font-family:Montserrat,sans-serif;
+    margin-bottom:18px;
+
+}
+
+header p{
+
+    max-width:850px;
+    color:var(--gris);
+    line-height:1.7;
+
+}
+
+.grid{
+
+    display:grid;
+
+    grid-template-columns:repeat(auto-fit,minmax(430px,1fr));
+
+    gap:28px;
+
+    margin-bottom:70px;
+
+}
+
+.card{
+
+    background:white;
+
+    border-radius:22px;
+
+    overflow:hidden;
+
+    border:1px solid var(--borde);
+
+    box-shadow:var(--shadow);
+
+    transition:.3s;
+
+}
+
+.card:hover{
+
+    transform:translateY(-6px);
+
+}
+
+.imagen{
+
+    width:100%;
+    height:270px;
+
+    object-fit:contain;
+
+    background:#F4F7FB;
+
+}
+
+.info{
+
+    padding:25px;
+
+}
+
+.numero{
+
+    display:inline-flex;
+
+    width:38px;
+    height:38px;
+
+    justify-content:center;
+    align-items:center;
+
+    border-radius:10px;
+
+    background:var(--dorado);
+
+    color:white;
+
+    font-weight:bold;
+
+    margin-bottom:18px;
+
+}
+
+.info h2{
+
+    color:var(--azul);
+
+    margin-bottom:10px;
+
+    font-size:1.25rem;
+
+}
+
+.info p{
+
+    color:var(--gris);
+
+    line-height:1.6;
+
+}
+
+footer{
+
+    padding:40px 0;
+
+    text-align:center;
+
+    color:var(--gris);
+
+}
+
+@media(max-width:700px){
+
+    h1{
+
+        font-size:2.2rem;
+
+    }
+
+    .grid{
+
+        grid-template-columns:1fr;
+
+    }
+
+}
+
+</style>
+
+</head>
+
+<body>
+
+<div class="container">
+
+<header>
+
+<div class="tag">
+
+Resultados experimentales
+
+</div>
+
+<h1>
+
+Preprocesamiento de datos
+
+</h1>
+
+<p>
+
+Resultados obtenidos durante la etapa de
+preprocesamiento de las imágenes utilizadas en esta investigación. Estas
+operaciones permiten mejorar la calidad de la información antes de las etapas
+de detección y seguimiento de vehículos.
+
+</p>
+
+</header>
+
+<section class="grid">
+
+<!-- ============================ -->
+
+<div class="card">
+
+<img src="imagenes/frame_00159_origi.png"
+class="imagen">
+
+<div class="info">
+
+<div class="numero">1</div>
+
+<h2>Frame original</h2>
+
+<p>
+
+Fotograma extraído directamente del video utilizado como entrada del sistema.
+
+</p>
+
+</div>
+
+</div>
+
+<!-- ============================ -->
+
+<div class="card">
+
+<img src="imagenes/filtro.png"
+class="imagen">
+
+<div class="info">
+
+<div class="numero">2</div>
+
+<h2>Filtro Gaussiano</h2>
+
+<p>
+
+Aplicación del filtro Gaussiano para suavizar la imagen y reducir pequeñas
+variaciones producidas por el ruido.
+
+</p>
+
+</div>
+
+</div>
+
+<!-- ============================ -->
+
+<div class="card">
+
+<img src="imagenes/ruido.png"
+class="imagen">
+
+<div class="info">
+
+<div class="numero">3</div>
+
+<h2>Eliminación de ruido</h2>
+
+<p>
+
+Resultado intermedio obtenido durante el proceso de segmentación para mejorar
+la calidad de la máscara.
+
+</p>
+
+</div>
+
+</div>
+ 
+
+<!-- ============================ -->
+
+<div class="card">
+
+<img src="imagenes/MASCARA_final.png"
+class="imagen">
+
+<div class="info">
+
+<div class="numero">5</div>
+
+<h2>Máscara obtenida</h2>
+
+<p>
+
+Máscara binaria final utilizada para aislar la región de interés del video.
+
+</p>
+
+</div>
+
+</div>
+
+
+  <div class="card">
+
+<img src="imagenes/frame_00159.png"
+class="imagen">
+
+<div class="info">
+
+<div class="numero">6</div>
+
+<h2>Imágen segmentada</h2>
+
+<p>
+
+Imágen de entrada directa hacia la CNN.
+
+</p>
+
+</div>
+
+</div>
+
+</section>
+
+<footer>
+Maestría de Matemática • Estimación de velocidad vehicular mediante CNN
+
+</footer>
+
+</div>
+
+</body>
+
+</html>
