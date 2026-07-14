@@ -1004,6 +1004,25 @@
         bottom: 16px;
     }
 } 
+        /* =========================
+   IMAGEN HORIZONTAL DE RESUMEN
+========================== */
+
+.resumen-imagen {
+    width: 100%;
+    overflow: hidden;
+    border-radius: 24px;
+    background: var(--blanco);
+    border: 1px solid var(--borde);
+    box-shadow: var(--sombra);
+}
+
+.resumen-imagen img {
+    width: 100%;
+    height: auto;
+    display: block;
+    object-fit: contain;
+}
 
     </style>
 </head>
@@ -1117,59 +1136,13 @@
                     </p>
                 </div>
 
-                <div class="resumen-grid">
-                    <article class="tarjeta-destacada">
-                        <h3>Panel1</h3>
-                        <p> 
-                        </p>
+                <div class="resumen-imagen">
 
-                        <div class="palabras-clave">
-                            <span>Visión por computador</span>
-                            <span>Redes neuronales</span>
-                            <span>Seguimiento</span>
-                            <span>Homografía</span>
-                            <span>Velocidad</span>
-                            <span>Densidad</span>
-                        </div>
-                    </article>
-
-                    <div class="resumen-datos">
-                        <article class="dato-card">
-                            <div class="dato-card-icono">01</div>
-                            <h3>Detección</h3>
-                            <p>
-                                Identificación y clasificación de vehículos en cada
-                                fotograma mediante una red neuronal convolucional.
-                            </p>
-                        </article>
-
-                        <article class="dato-card">
-                            <div class="dato-card-icono">02</div>
-                            <h3>Seguimiento</h3>
-                            <p>
-                                Asociación temporal de detecciones para reconstruir la
-                                trayectoria individual de cada vehículo.
-                            </p>
-                        </article>
-
-                        <article class="dato-card">
-                            <div class="dato-card-icono">03</div>
-                            <h3>Transformación</h3>
-                            <p>
-                                Conversión de coordenadas en píxeles a posiciones reales
-                                mediante una transformación proyectiva.
-                            </p>
-                        </article>
-
-                        <article class="dato-card">
-                            <div class="dato-card-icono">04</div>
-                            <h3>Estimación</h3>
-                            <p>
-                                Cálculo de velocidad y generación de datos para estudiar
-                                su relación con la densidad vehicular.
-                            </p>
-                        </article>
-                    </div>
+                    <img
+                        src="resultados/imagenes/frame_00129.png"
+                        alt="Resumen visual del sistema de detección, seguimiento y estimación de velocidad vehicular"
+                    >
+                
                 </div>
             </div>
         </section>
