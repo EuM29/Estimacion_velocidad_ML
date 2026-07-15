@@ -518,6 +518,108 @@
                 padding: 20px;
             }
         }
+
+        /*=====================================
+        AGRADECIMIENTOS
+======================================*/
+
+.agradecimientos{
+
+    padding:90px 0;
+
+}
+
+.agradecimiento-card{
+
+    max-width:950px;
+
+    margin:auto;
+
+    background:linear-gradient(
+        135deg,
+        #1D2D50,
+        #2C447D
+    );
+
+    color:white;
+
+    padding:55px;
+
+    border-radius:26px;
+
+    box-shadow:0 20px 45px rgba(29,45,80,.18);
+
+    position:relative;
+
+    overflow:hidden;
+
+}
+
+.agradecimiento-card::before{
+
+    content:"";
+
+    position:absolute;
+
+    width:220px;
+    height:220px;
+
+    border-radius:50%;
+
+    right:-70px;
+    top:-70px;
+
+    background:rgba(217,169,40,.15);
+
+}
+
+.agradecimiento-etiqueta{
+
+    display:inline-block;
+
+    background:#FFF7DD;
+
+    color:#8A6500;
+
+    padding:8px 16px;
+
+    border-radius:30px;
+
+    font-size:.80rem;
+
+    font-weight:700;
+
+    margin-bottom:22px;
+
+}
+
+.agradecimiento-card h2{
+
+    font-family:Montserrat,sans-serif;
+
+    font-size:2.3rem;
+
+    color:#D9A928;
+
+    margin-bottom:20px;
+
+}
+
+.agradecimiento-card p{
+
+    line-height:1.9;
+
+    color:rgba(255,255,255,.92);
+
+    font-size:1.02rem;
+
+}
+
+.agradecimiento-card strong{
+
+    color:#FFD86A;
+
+}
     </style>
 </head>
 
@@ -564,13 +666,7 @@
                 <h1>
                     Resultados obtenidos en
                     <span>secuencias de video</span>
-                </h1>
-
-                <p>
-                    En esta sección se presentan diferentes etapas del sistema:
-                    el video original, una primera prueba de detección y seguimiento,
-                    y una prueba final con estimación de velocidad vehicular.
-                </p>
+                </h1> 
 
             </div>
         </section>
@@ -735,6 +831,44 @@
 
             </div>
         </section>
+
+        <!--=====================================
+        AGRADECIMIENTOS
+======================================-->
+
+<section class="agradecimientos">
+
+    <div class="container">
+
+        <div class="agradecimiento-card">
+
+            <span class="agradecimiento-etiqueta">
+                Reconocimiento institucional
+            </span>
+
+            <h2>
+                Agradecimientos
+            </h2>
+
+            <p>
+                Agradecimiento especial a
+                <strong>Universidad Nacional Autónoma de Honduras (UNAH)</strong>,
+                a través de la
+                <strong>Vicerrectoría Académica</strong> y la
+                <strong>Dirección de Investigación Científica, Humanística y Tecnológica (DICIHT)</strong>,
+                por el apoyo brindado mediante la
+                <strong>Beca para Estudiantes de la UNAH 2026</strong>,
+                obtenida en el marco de la convocatoria orientada al fortalecimiento
+                de la investigación científica, la formación de investigadores y el
+                desarrollo de proyectos prioritarios dentro del Sistema de Investigación
+                Científica, Humanística y Tecnológica (SICIHT).
+            </p>
+
+        </div>
+
+    </div>
+
+</section>
 
     </main>
 
